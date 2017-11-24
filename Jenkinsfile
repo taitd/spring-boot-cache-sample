@@ -1,12 +1,12 @@
-echo "Empezando mi workflow"
+echo "Starting my workflow"
 
 stage 'build'
 node {
 
-    echo "Descargando fuentes"
-    git 'https://github.com/eddumelendez/spring-boot-cache-sample.git'
+    echo "Download fonts"
+    git 'https://github.com/taitd/spring-boot-cache-sample.git'
 
-    echo "Construyendo el proyecto con Gradle Wrapper"
+    echo "Building the project with Gradle Wrapper"
     sh './gradlew build -x test'
 
     archive 'build/libs/*.jar'
@@ -22,7 +22,7 @@ node {
 
 stage 'integration-test'
 node {
-    def outcome = input message: 'Quieres ejecutar los test de integración?', parameters: [[$class: 'BooleanParameterDefinition', defaultValue: false, description: '', name: '']]
+    def outcome = input message: 'Do you want to run integration tests?', parameters: [[$class: 'BooleanParameterDefinition', defaultValue: false, description: '', name: '']]
     if (outcome) {
         sh './gradlew integrationTest'
     }
